@@ -57,7 +57,7 @@ void Drawer::close()
 // --------------------------------------------------
 void Drawer::DrawGlass(const Uno* firstUno)
 {
-   // Нарисовать уно
+    // РќР°СЂРёСЃРѕРІР°С‚СЊ СѓРЅРѕ		
    auto drawUno = [this](SDL_Rect& unoRect, UNO_COLOR unoColor)
    {
       switch(unoColor)

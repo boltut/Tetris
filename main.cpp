@@ -12,7 +12,7 @@ Uint32 Tick(Uint32 interval, void* glass)
    // Показать скорость тика, для отладки, временно
    if(interval != prevInterval)
    {
-      std::cout << "cкорость тика = ";
+      std::cout << "время тика = ";
       std::cout << interval << " мс." << std::endl;
       prevInterval = interval;
    }
