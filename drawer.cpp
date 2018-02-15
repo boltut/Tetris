@@ -72,6 +72,13 @@ void Drawer::DrawGlass(const Uno* firstUno)
       case UNO_COLOR::ORANGE: SDL_SetRenderDrawColor(m_gRenderer, 255, 165, 0, 0); break;
       }
       SDL_RenderFillRect(m_gRenderer, &unoRect);
+
+      // Нарисовать окантовку уно
+      if(unoColor != UNO_COLOR::BLACK)
+      {
+         SDL_SetRenderDrawColor(m_gRenderer, 255, 255, 255, 0);
+         SDL_RenderDrawRect(m_gRenderer, &unoRect );
+      }
    };
 
    for(int row = 0; row < 22; ++row)

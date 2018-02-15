@@ -9,11 +9,11 @@ int prevInterval = 0;
 // Тикнуть
 Uint32 Tick(Uint32 interval, void* glass)
 {
-   // Показать скорость тика, для отладки, временно
+   // Показать время тика, для отладки, временно
    if(interval != prevInterval)
    {
-      std::cout << "время тика = ";
-      std::cout << interval << " мс." << std::endl;
+      std::cout << "tick time = ";
+      std::cout << interval << " ms." << std::endl;
       prevInterval = interval;
    }
 
