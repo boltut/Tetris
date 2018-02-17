@@ -6,8 +6,6 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-#include <cstdlib>
-
 // Типы блоков(уно), из которых состоит всё
 enum class UNO_TYPE
 {
@@ -311,8 +309,6 @@ public:
    // Сместить фигуру на одно уно
    // params left, right - смещение по горизонтали
    void tick(bool left = false, bool right = false);
-   // Распечатать стакан для отладки
-   void print(int tickNo) const;
    // Вернуть себя(нужно для рисователя)
    const Uno* getSelf() { return &m_glass[0][0]; };
    // Тикнуть влево

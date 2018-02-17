@@ -1,7 +1,6 @@
 ﻿#include "drawer.h"
 #include <chrono>
 #include <thread>
-#include <ctime>
 #include <iostream>
 
 int prevInterval = 0;

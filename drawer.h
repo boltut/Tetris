@@ -4,8 +4,6 @@
 #define DRAWER_H
 
 #include <SDL2/SDL.h>
-#include <stdio.h>
-#include <cmath>
 #include "model.h"
 
 // Сторона уно, в px

@@ -77,7 +77,7 @@ void Drawer::DrawGlass(const Uno* firstUno)
       if(unoColor != UNO_COLOR::BLACK)
       {
          SDL_SetRenderDrawColor(m_gRenderer, 0, 0, 0, 0);
-         SDL_RenderDrawRect(m_gRenderer, &unoRect );
+         SDL_RenderDrawRect(m_gRenderer, &unoRect);
       }
    };
 

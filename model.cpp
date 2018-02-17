@@ -1,6 +1,6 @@
 ﻿// Реализация модели
 #include "model.h"
-#include <iostream>
+#include <cstdlib>
 #include <set>
 
 // =======================================
@@ -39,7 +39,6 @@ void Tetramino::changePos(bool cw)
 // =======================================
 Glass::Glass()
 {
-   setlocale(LC_ALL, "Russian");
    // Создать фигурку рандомно
    createRandomFigure();
 }
@@ -105,19 +104,6 @@ void Glass::deleteFigure(bool bToBottom)
             else
                m_glass[row][column] = Uno();
          }
-}
-// ---------------------------------------
-void Glass::print(int tickNo) const
-{
-   using namespace std;
-
-   for(int row = 0; row < 22; ++row)
-   {
-      for(int column = 0; column < 10; ++column)
-         cout << (int)m_glass[row][column].getType();
-      cout << endl;
-   }
-   cout << "tick " << tickNo << endl;
 }
 // ---------------------------------------
 bool Glass::hasPlace(int row, int col)
