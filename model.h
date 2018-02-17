@@ -6,6 +6,8 @@
 #ifndef MODEL_H
 #define MODEL_H
 
+#include <vector>
+
 // Типы блоков(уно), из которых состоит всё
 enum class UNO_TYPE
 {
@@ -360,15 +362,17 @@ private:
    bool isRowFilled(int row);
    // Проверить, есть ли куски бетона в строке(строка не пуста)
    bool isRowNotEmpty(int row);
-   // Создать рандомную фигурку
-   void createRandomFigure();
+   // Рандомно выбрать фигурку
+   void selectRandomFigure();
 
    // Координаты текущей фигуры
    int m_curRow = -1, m_curCol = 4;
    // Рабочая область(стакан)
    Uno m_glass[22][10];
-   // Текущая фигура
-   Tetramino* m_currFigure = nullptr;
+   // Набор фигур
+   std::vector<Tetramino*> m_figures;
+   // Текущая фигура(индекс в наборе)
+   int m_currFigureIndex = 0;
    // Счетчик уничтоженных строк
    int m_destroyedRowsCount = 0;
    // Дельта, на которую уменьшаем время тика

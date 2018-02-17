@@ -39,14 +39,16 @@ void Tetramino::changePos(bool cw)
 // =======================================
 Glass::Glass()
 {
-   // Создать фигурку рандомно
-   createRandomFigure();
+   m_figures = { new I, new O, new T, new S, new Z, new J, new L };
+
+   // Выбрать фигурку рандомно
+   selectRandomFigure();
 }
 // ---------------------------------------
 Glass::~Glass()
 {
-   if(m_currFigure)
-      delete m_currFigure;
+   for(auto figure : m_figures)
+      delete figure;
 }
 // ---------------------------------------
 void Glass::tick(TickType tt)
@@ -71,7 +73,7 @@ void Glass::tick(TickType tt)
          deleteFigure(true);
          m_curRow = -1;
          m_curCol = 4;
-         createRandomFigure();
+         selectRandomFigure();
 
          // Уничтожить заполненые строки
          DestroyFilledRows();
@@ -108,8 +110,8 @@ void Glass::deleteFigure(bool bToBottom)
 // ---------------------------------------
 bool Glass::hasPlace(int row, int col)
 {
-   Uno* uno = m_currFigure->getSelf();        // Начало текущей фигурки
-   int currFigSize = m_currFigure->getSize(); // Размер текущей фигурки
+   Uno* uno = m_figures[m_currFigureIndex]->getSelf();        // Начало текущей фигурки
+   int currFigSize = m_figures[m_currFigureIndex]->getSize(); // Размер текущей фигурки
 
    // Смотреть, можно ли разместить фигуру в данном куске стакана
    for(int i = 0; i < currFigSize; ++i)
@@ -132,8 +134,8 @@ bool Glass::hasPlace(int row, int col)
 // ---------------------------------------
 void Glass::writeFigure()
 {
-   Uno* uno = m_currFigure->getSelf();        // Начало текущей фигурки
-   int currFigSize = m_currFigure->getSize(); // Размер текущей фигурки
+   Uno* uno = m_figures[m_currFigureIndex]->getSelf();        // Начало текущей фигурки
+   int currFigSize = m_figures[m_currFigureIndex]->getSize(); // Размер текущей фигурки
 
    for(int i = 0; i < currFigSize; ++i)
       for(int j = 0; j < currFigSize; ++j)
@@ -160,24 +162,9 @@ bool Glass::isRowNotEmpty(int row)
    return false;
 }
 // ---------------------------------------
-void Glass::createRandomFigure()
+void Glass::selectRandomFigure()
 {
-   if(m_currFigure)
-   {
-      delete m_currFigure;
-      m_currFigure = nullptr;
-   }
-
-   switch(std::rand() % 7)
-   {
-   case 0: m_currFigure = new I; break;
-   case 1: m_currFigure = new O; break;
-   case 2: m_currFigure = new T; break;
-   case 3: m_currFigure = new S; break;
-   case 4: m_currFigure = new Z; break;
-   case 5: m_currFigure = new J; break;
-   case 6: m_currFigure = new L; break;
-   }
+   m_currFigureIndex = std::rand() % 7;
 }
 // ---------------------------------------
 void Glass::TickToLeft()
@@ -198,7 +185,7 @@ void Glass::TickToBottom()
 void Glass::Turn(TurningType tp)
 {
    bool cw = (tp == TurningType::CW) ? true : false;
-   m_currFigure->changePos(cw);
+   m_figures[m_currFigureIndex]->changePos(cw);
 
    // Перерисовать фигуру
    if(hasPlace(m_curRow, m_curCol))
@@ -207,7 +194,7 @@ void Glass::Turn(TurningType tp)
       writeFigure();
    }
    else
-      m_currFigure->changePos(!cw);
+      m_figures[m_currFigureIndex]->changePos(!cw);
 }
 // ---------------------------------------
 void Glass::DestroyFilledRows()

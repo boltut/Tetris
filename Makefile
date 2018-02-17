@@ -1,5 +1,5 @@
 tetris: main.o drawer.o model.o
-	g++  -o tetris main.o drawer.o model.o  -lSDL2
+	g++ -o tetris main.o drawer.o model.o  -lSDL2
 
 main.o: main.cpp drawer.h
 	g++ main.cpp drawer.h -std=c++17 -c 
