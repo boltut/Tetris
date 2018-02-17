@@ -16,7 +16,7 @@ Uint32 Tick(Uint32 interval, void* glass)
       prevInterval = interval;
    }
 
-   static_cast<Glass*>(glass)->tick();
+   static_cast<Glass*>(glass)->tick(TickType::BOTTOM);
    return interval;
 }
 
@@ -52,11 +52,11 @@ int main(int argc, char* args[])
          {
             switch(e.key.keysym.sym)
             {
-               case SDLK_DOWN:     glass.TickToBottom(); break;
-               case SDLK_LEFT:     glass.TickToLeft();   break;
-               case SDLK_RIGHT:    glass.TickToRight();  break;
-               case SDLK_PAGEUP:   glass.Turn(false);    break;
-               case SDLK_PAGEDOWN: glass.Turn();         break;
+               case SDLK_DOWN:     glass.TickToBottom();         break;
+               case SDLK_LEFT:     glass.TickToLeft();           break;
+               case SDLK_RIGHT:    glass.TickToRight();          break;
+               case SDLK_PAGEUP:   glass.Turn(TurningType::CCW); break;
+               case SDLK_PAGEDOWN: glass.Turn(TurningType::CW);  break;
             }
          }
       }

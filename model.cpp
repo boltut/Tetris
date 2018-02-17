@@ -49,10 +49,10 @@ Glass::~Glass()
       delete m_currFigure;
 }
 // ---------------------------------------
-void Glass::tick(bool left, bool right)
+void Glass::tick(TickType tt)
 {
    // Обработать смещение по вертикали
-   if(!left && !right)
+   if(tt == TickType::BOTTOM)
    {
       // Записать в след. строку если есть место
       if(hasPlace(m_curRow + 1, m_curCol))
@@ -81,8 +81,8 @@ void Glass::tick(bool left, bool right)
    else
    {
       int horShift = 0;
-      if(left) horShift = -1;
-      if(right) horShift = 1;
+      if(tt == TickType::LEFT) horShift = -1;
+      if(tt == TickType::RIGHT) horShift = 1;
 
       if(hasPlace(m_curRow, m_curCol + horShift))
       {
@@ -182,21 +182,22 @@ void Glass::createRandomFigure()
 // ---------------------------------------
 void Glass::TickToLeft()
 {
-   tick(true, false);
+   tick(TickType::LEFT);
 }
 // ---------------------------------------
 void Glass::TickToRight()
 {
-   tick(false, true);
+   tick(TickType::RIGHT);
 }
 // ---------------------------------------
 void Glass::TickToBottom()
 {
-   tick();
+   tick(TickType::BOTTOM);
 }
 // ---------------------------------------
-void Glass::Turn(bool cw)
+void Glass::Turn(TurningType tp)
 {
+   bool cw = (tp == TurningType::CW) ? true : false;
    m_currFigure->changePos(cw);
 
    // Перерисовать фигуру

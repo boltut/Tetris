@@ -28,7 +28,28 @@ enum class UNO_COLOR
 };
 
 // Положения, в которых могут находится фигурки
-enum class Tetramino_POS { T0, T90, T180, T270 };
+enum class Tetramino_POS
+{ 
+   T0,
+   T90,
+   T180,
+   T270
+};
+
+// Тип вращения фигуры: по/против часовой стрелки
+enum class TurningType
+{
+   CW, // По часовой стрелке
+   CCW // Против часовой стрелки
+};
+
+// Куда тикнуть
+enum class TickType
+{
+   LEFT,
+   RIGHT,
+   BOTTOM
+};
 
 // Уно, наименьшая неделимая сущность, из которой состоит вся рабочая область
 class Uno
@@ -307,8 +328,7 @@ public:
    Glass();
    ~Glass();
    // Сместить фигуру на одно уно
-   // params left, right - смещение по горизонтали
-   void tick(bool left = false, bool right = false);
+   void tick(TickType tt);
    // Вернуть себя(нужно для рисователя)
    const Uno* getSelf() { return &m_glass[0][0]; };
    // Тикнуть влево
@@ -318,7 +338,7 @@ public:
    // Тикнуть вниз
    void TickToBottom();
    // Повернуть по часовой стрелке
-   void Turn(bool cw = true);
+   void Turn(TurningType tp);
    // Уничтожить заполненные строки
    void DestroyFilledRows();
    // Ускорить тик?
