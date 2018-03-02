@@ -67,19 +67,19 @@ int main(int argc, char* args[])
       drawer.UpdateScreen();
 
       // Попытаться ускорить тик
-      if(glass.needFasterTick())
+      if(glass.NeedFasterTick())
       {
          // Запустить новый колбэк, с уменьшенным интервалом
          SDL_RemoveTimer(mainTimerID);
          if(tickInterval >= 200) // 100 мс - пока минимальный интервал
          {
-            tickInterval -= glass.getTickDelta();
+            tickInterval -= glass.GetTickDelta();
             mainTimerID = SDL_AddTimer(tickInterval, Tick, &glass);
          }
       }
 
       // Закончить игру(пока тупо закроется окно)
-      if(glass.isExit()) quit = true;
+      if(glass.IsExit()) quit = true;
 
       // Отдохнуть 10мс, чтобы не насиловать машину
       std::this_thread::sleep_for(std::chrono::milliseconds(10));

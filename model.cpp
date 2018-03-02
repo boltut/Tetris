@@ -231,7 +231,7 @@ void Glass::DestroyFilledRows()
    }
 }      
 // ---------------------------------------
-bool Glass::needFasterTick()
+bool Glass::NeedFasterTick()
 {
    // Если снесли пять строк - ускорить тик(уменьшить время на дельту)
    if(!(m_destroyedRowsCount < 5))

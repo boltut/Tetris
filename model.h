@@ -344,11 +344,11 @@ public:
    // Уничтожить заполненные строки
    void DestroyFilledRows();
    // Ускорить тик?
-   bool needFasterTick();
+   bool NeedFasterTick();
    // Посмотреть дельту, на которую уменьшаем тик
-   int getTickDelta() const { return m_tickDelta; }
+   int GetTickDelta() const { return m_tickDelta; }
    // Конец игры?
-   bool isExit() const { return m_exit == true; }
+   bool IsExit() const { return m_exit == true; }
  
 private:
    // Есть ли место для текущей фигуры в конкретной части стакана?
