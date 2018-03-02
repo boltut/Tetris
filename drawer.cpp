@@ -95,3 +95,11 @@ void Drawer::ClearScreen()
    SDL_SetRenderDrawColor(m_gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
    SDL_RenderClear(m_gRenderer);
 }
+// --------------------------------------------------
+void Drawer::drawInfoPanel()
+{
+   // Нарисовать:
+   // Уровень игры(считай, скорость)
+   // Следующую фигурку
+   // Кол-во снесенных линий
+}

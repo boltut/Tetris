@@ -9,8 +9,11 @@
 // Сторона уно, в px
 const int unoSize = 30;
 
+// Ширина инфопанели, в px
+const int infoPanelWidth = 90;
+
 // Разрешение окна
-const int screenWidth = 10 * unoSize;
+const int screenWidth = 10 * unoSize + infoPanelWidth;
 const int screenHeight = 22 * unoSize;
 
 class Drawer
@@ -44,6 +47,9 @@ private:
 
    // Убить ресурсы
    void close();
+
+   // Отрисовать инфопанель
+   void drawInfoPanel();
 };
 
 #endif
