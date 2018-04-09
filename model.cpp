@@ -77,6 +77,9 @@ void Glass::tick(TickType tt)
 
          // Уничтожить заполненые строки
          DestroyFilledRows();
+
+         // Обновить инфопанель
+         m_infopanel.SetNeedRedraw();
       }
    }
    // Обработать смещение по горизонтали
@@ -199,15 +202,31 @@ void Glass::Turn(TurningType tp)
 // ---------------------------------------
 void Glass::DestroyFilledRows()
 {
-   std::set<int> filledRows;
+   // Сколько нужно снести строк для одного уровня
+   const int oneLevelRowsCount = 5;
 
    // Сложить в кучу номера строк, подлежащих уничтожению
+   std::set<int> filledRows;
    for(int row = 0; row < 22; ++row)
       if(isRowFilled(row))
          filledRows.insert(row);
+
+   // Количество заполненных строк, образованных за падение одной фигуры
+   int oneTimefilledRowsCount = (int)filledRows.size();
    
-   // Запомнить кол-во уничтоженных строк
-   m_destroyedRowsCount += (int)filledRows.size();
+   if(oneTimefilledRowsCount > 0) // Если что-то снесли
+   {
+      // Проверить, надо ли повысить уровень
+      if((m_destroyedRowsCount % oneLevelRowsCount + oneTimefilledRowsCount)
+         >= oneLevelRowsCount)
+      {
+         m_needNextLevel = true;
+         m_infopanel.SetLevel();
+      }
+      // Запомнить кол-во уничтоженных строк
+      m_destroyedRowsCount += oneTimefilledRowsCount;
+      m_infopanel.SetDestroyedRows(oneTimefilledRowsCount);
+   }
 
    // Пройтись по заполненным строкам
    for(auto it : filledRows)
@@ -229,17 +248,14 @@ void Glass::DestroyFilledRows()
          }
       }
    }
-}      
-// ---------------------------------------
-bool Glass::NeedFasterTick()
-{
-   // Если снесли пять строк - ускорить тик(уменьшить время на дельту)
-   if(!(m_destroyedRowsCount < 5))
-   {
-      m_destroyedRowsCount -= 5;
-      return true;
-   }
-   return false;
 }
 // ---------------------------------------
-
+bool Glass::NeedNextLevel()
+{
+   if(m_needNextLevel)
+   {
+      m_needNextLevel = false;
+      return true;
+   }
+   return m_needNextLevel;
+}

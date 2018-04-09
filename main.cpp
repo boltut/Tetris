@@ -1,7 +1,6 @@
-﻿#include "drawer.h"
+#include "drawer.h"
 #include <chrono>
 #include <thread>
-#include <iostream>
 
 int prevInterval = 0;
 
@@ -40,6 +39,9 @@ int main(int argc, char* args[])
    // Тикающий колбэк
    SDL_TimerID mainTimerID = SDL_AddTimer(800, Tick, &glass);
 
+   // Нарисовать инфопанель первый раз
+   glass.m_infopanel.SetNeedRedraw();
+
    // Молотить пока не жмякнем на выход
    while(!quit)
    {
@@ -61,13 +63,12 @@ int main(int argc, char* args[])
          }
       }
 
-      // Рисовать стакан
-      drawer.ClearScreen();
-      drawer.DrawGlass(glass.getSelf());
+      drawer.DrawGlass(glass); // Рисовать стакан
+      drawer.DrawInfoPanel(glass.m_infopanel); // Рисовать инфопанель
       drawer.UpdateScreen();
 
       // Попытаться ускорить тик
-      if(glass.NeedFasterTick())
+      if(glass.NeedNextLevel())
       {
          // Запустить новый колбэк, с уменьшенным интервалом
          SDL_RemoveTimer(mainTimerID);
@@ -75,6 +76,7 @@ int main(int argc, char* args[])
          {
             tickInterval -= glass.GetTickDelta();
             mainTimerID = SDL_AddTimer(tickInterval, Tick, &glass);
+            std::cout << "new timer!!!" << std::endl;
          }
       }
 

@@ -7,6 +7,8 @@
 #define MODEL_H
 
 #include <vector>
+#include <iostream>
+#include "infopanel.h"
 
 // Типы блоков(уно), из которых состоит всё
 enum class UNO_TYPE
@@ -344,12 +346,15 @@ public:
    // Уничтожить заполненные строки
    void DestroyFilledRows();
    // Ускорить тик?
-   bool NeedFasterTick();
+   bool NeedNextLevel();
    // Посмотреть дельту, на которую уменьшаем тик
    int GetTickDelta() const { return m_tickDelta; }
+   // Получить количество снесенных строк
+   int GetDestroyedRowsCount() const { return m_destroyedRowsCount; }
    // Конец игры?
    bool IsExit() const { return m_exit == true; }
- 
+   // Описатель инфопанели
+   InfoPanel m_infopanel;
 private:
    // Есть ли место для текущей фигуры в конкретной части стакана?
    bool hasPlace(int row, int col);
@@ -364,7 +369,6 @@ private:
    bool isRowNotEmpty(int row);
    // Рандомно выбрать фигурку
    void selectRandomFigure();
-
    // Координаты текущей фигуры
    int m_curRow = -1, m_curCol = 4;
    // Рабочая область(стакан)
@@ -379,6 +383,8 @@ private:
    const int m_tickDelta = 100;
    // Флаг конца игры
    bool m_exit = false;
+   // Нужно ли перейти на следующий уровениь
+   bool m_needNextLevel = false;
 };
 
 #endif // MODEL_H
