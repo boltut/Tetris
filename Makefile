@@ -1,14 +1,10 @@
-tetris: main.o drawer.o model.o
-	g++ -o tetris main.o drawer.o model.o  -lSDL2
+OBJECTS = main.o drawer.o model.o
 
-main.o: main.cpp drawer.h
-	g++ main.cpp drawer.h -std=c++17 -c 
-
-drawer.o: drawer.cpp drawer.h
-	g++ drawer.cpp drawer.h -std=c++17 -c
-
-model.o:  model.cpp model.h
-	g++ model.cpp model.h -std=c++17 -c
-
-clean:
-	rm  tetris *.o *.gch
+tetris: $(OBJECTS)
+	g++ -o tetris $(OBJECTS) -lSDL2 -lSDL2_ttf
+main.o drawer.o: drawer.h
+	g++ main.cpp drawer.cpp -std=c++17 -c
+model.o: model.h infopanel.h
+	g++ model.cpp -std=c++17 -c
+clean :
+rm tetris $(OBJECTS) *.gch
