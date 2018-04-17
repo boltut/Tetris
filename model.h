@@ -7,7 +7,6 @@
 #define MODEL_H
 
 #include <vector>
-#include <iostream>
 #include "infopanel.h"
 
 // Типы блоков(уно), из которых состоит всё

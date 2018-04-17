@@ -7,15 +7,10 @@ int prevInterval = 0;
 // Тикнуть
 Uint32 Tick(Uint32 interval, void* glass)
 {
-   // Показать время тика, для отладки, временно
    if(interval != prevInterval)
-   {
-      std::cout << "tick time = ";
-      std::cout << interval << " ms." << std::endl;
       prevInterval = interval;
-   }
-
    static_cast<Glass*>(glass)->tick(TickType::BOTTOM);
+
    return interval;
 }
 
@@ -76,7 +71,6 @@ int main(int argc, char* args[])
          {
             tickInterval -= glass.GetTickDelta();
             mainTimerID = SDL_AddTimer(tickInterval, Tick, &glass);
-            std::cout << "new timer!!!" << std::endl;
          }
       }
 
