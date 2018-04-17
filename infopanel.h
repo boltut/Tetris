@@ -3,7 +3,7 @@
 #ifndef INFOPANEL_H
 #define INFOPANEL_H
 
-enum class FigureType { I, O, T, S, Z, J, L };
+class Tetramino; // Forward declaration
 
 class InfoPanel
 {
@@ -12,8 +12,6 @@ public:
    void SetDestroyedRows(int rows) { m_destroyedRows += rows; }
    int GetLevel() const { return m_level; }
    void SetLevel() { m_level += 1; }
-   FigureType GetNextFigure() const { m_nextFigure; }
-   void SetNextFigure(FigureType ft) { m_nextFigure =ft; }
    bool NeedRedraw()
    { 
       if(m_needRedraw)
@@ -24,11 +22,13 @@ public:
       return m_needRedraw;
    }
    void SetNeedRedraw() { m_needRedraw = true; }
+   void SetNextFigure(Tetramino* t) { m_nextFigure = t; }
+   Tetramino* GetNextFigure() { return m_nextFigure; }
 private:
    int m_level = 0;
    int m_destroyedRows = 0;
-   FigureType m_nextFigure;
    bool m_needRedraw = false;
+   Tetramino* m_nextFigure = nullptr;
 };
 
 #endif // INFOPANEL_H

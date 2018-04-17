@@ -10,7 +10,7 @@
 // Сторона уно, в px
 const int unoSize = 30;
 // Ширина инфопанели, в px
-const int infoPanelWidth = 100;
+const int infoPanelWidth = 120;
 
 // Разрешение окна
 const int screenWidth = 10 * unoSize + infoPanelWidth;
@@ -47,8 +47,6 @@ private:
    SDL_Rect m_glassViewportRect;
    // Вьюпорт инфопанели
    SDL_Rect m_infoPanelViewportRect;
-   // Шрифт для инфопанели
-   TTF_Font* m_font = nullptr;
 };
 
 #endif // DRAWER_H

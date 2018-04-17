@@ -165,9 +165,15 @@ bool Glass::isRowNotEmpty(int row)
    return false;
 }
 // ---------------------------------------
-void Glass::selectRandomFigure()
+void Glass::selectRandomFigure(bool firstTime)
 {
-   m_currFigureIndex = std::rand() % 7;
+   if(firstTime) // Первый запуск
+      m_currFigureIndex = std::rand() % 7;
+   else
+      m_currFigureIndex = m_nextFigureIndex;
+   
+   m_nextFigureIndex = static_cast<int>(std::rand() % 7);
+   m_infopanel.SetNextFigure(m_figures[m_nextFigureIndex]);
 }
 // ---------------------------------------
 void Glass::TickToLeft()

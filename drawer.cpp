@@ -35,9 +35,8 @@ bool Drawer::init()
          else
          {
             TTF_Init();
-            m_font = TTF_OpenFont("/usr/share/fonts/sourcecode/SourceCodeVariable-Roman.ttf", 72);
             m_glassViewportRect = {1, 1, 300, screenHeight};
-            m_infoPanelViewportRect = {301, 1, 99, screenHeight};
+            m_infoPanelViewportRect = {301, 1, 120, screenHeight};
          }
       }
    }
@@ -95,35 +94,69 @@ void Drawer::DrawInfoPanel(InfoPanel& infopanel)
 
    // Затереть предыдущую инфопанель
    SDL_SetRenderDrawColor(m_gRenderer, 0, 0, 0, 1); // Почему-то с первого раза не рисуется чистый черный
-   SDL_Rect rect = {0, 0, 100, screenHeight};
+   SDL_Rect rect = {0, 0, 120, screenHeight};
    SDL_RenderFillRect(m_gRenderer, &rect);
 
    // Разделительная линия между стаканом и инфопанелью
    SDL_SetRenderDrawColor(m_gRenderer, 105, 105, 105, 0);
    SDL_RenderDrawLine(m_gRenderer, 0, 0, 0, screenHeight);
 
-   // Текстура с уровнем игры
+   // Шрифт для панели
    SDL_Color white = {255, 255, 255};
-   std::string level = "Level:" + std::to_string(infopanel.GetLevel());
-   SDL_Surface* surfaceInfoPanel = TTF_RenderText_Solid(m_font, level.c_str(), white);
+   TTF_Font* font = TTF_OpenFont("/usr/share/fonts/sourcecode/SourceCodeVariable-Roman.ttf", 72);
+
+   // Текстура "Destroyed"
+   SDL_Surface* surfaceInfoPanel = TTF_RenderText_Solid(font, "Destroyed", white);
    SDL_Texture* infoPanelTexture = SDL_CreateTextureFromSurface(m_gRenderer, surfaceInfoPanel);
-   SDL_Rect dstRect = {5, 2, 70, 20};
+   SDL_Rect dstRect = {5, 2, 110, 30};
    SDL_RenderCopy(m_gRenderer, infoPanelTexture, nullptr, &dstRect);
-
-   // Освободить ресурсы
    SDL_FreeSurface(surfaceInfoPanel);
    SDL_DestroyTexture(infoPanelTexture);
 
-   // Текстура с уничтоженными линиями
-   std::string linesDestroyed = "Destroyed:" + std::to_string(infopanel.GetDestroyedRows());
-   surfaceInfoPanel = TTF_RenderText_Solid(m_font, linesDestroyed.c_str(), white);
+   // Текстура "lines: x"
+   std::string lines = "lines:" + std::to_string(infopanel.GetDestroyedRows());
+   surfaceInfoPanel = TTF_RenderText_Solid(font, lines.c_str(), white);
    infoPanelTexture = SDL_CreateTextureFromSurface(m_gRenderer, surfaceInfoPanel);
-   dstRect = {2, 50, 90, 30};
+   dstRect = {5, 35, 90, 30};
    SDL_RenderCopy(m_gRenderer, infoPanelTexture, nullptr, &dstRect);
-
-   // Освободить ресурсы
    SDL_FreeSurface(surfaceInfoPanel);
    SDL_DestroyTexture(infoPanelTexture);
+
+   // Текстура "Level: x"
+   std::string level = "Level:" + std::to_string(infopanel.GetLevel());
+   surfaceInfoPanel = TTF_RenderText_Solid(font, level.c_str(), white);
+   infoPanelTexture = SDL_CreateTextureFromSurface(m_gRenderer, surfaceInfoPanel);
+   dstRect = {5, 100, 90, 30};
+   SDL_RenderCopy(m_gRenderer, infoPanelTexture, nullptr, &dstRect);
+   SDL_FreeSurface(surfaceInfoPanel);
+   SDL_DestroyTexture(infoPanelTexture);
+
+   // Текстура "Next Figure"
+   surfaceInfoPanel = TTF_RenderText_Solid(font, "Next Figure:", white);
+   infoPanelTexture = SDL_CreateTextureFromSurface(m_gRenderer, surfaceInfoPanel);
+   dstRect = {5, 300, 110, 30};
+   SDL_RenderCopy(m_gRenderer, infoPanelTexture, nullptr, &dstRect);
+   SDL_FreeSurface(surfaceInfoPanel);
+   SDL_DestroyTexture(infoPanelTexture);
+   TTF_CloseFont(font);
+
+   // Отрисовать фигуру фигуры
+   SDL_SetRenderDrawColor(m_gRenderer, 255, 255, 255, 0);
+   int unoSize = 20;
+   const Uno* firstUno = infopanel.GetNextFigure()->getSelf();
+   int figureSize = infopanel.GetNextFigure()->getSize();
+   for(int row = 0; row < figureSize; ++row)
+      for(int col = 0; col < figureSize; ++col)
+      {
+         SDL_Rect unoRect = { 20 + col * unoSize, 350 + row * unoSize, unoSize, unoSize};
+         if(firstUno->getType() == UNO_TYPE::FIGURE) {
+            SDL_RenderFillRect(m_gRenderer, &unoRect);
+            SDL_SetRenderDrawColor(m_gRenderer, 0, 0, 0, 0); // Сделать черную окантовку
+            SDL_RenderDrawRect(m_gRenderer, &unoRect);
+            SDL_SetRenderDrawColor(m_gRenderer, 255, 255, 255, 0); // Вернуть белый цвет
+         }
+         ++firstUno;
+      }
 }
 // --------------------------------------------------
 void Drawer::ClearScreen()

@@ -367,8 +367,8 @@ private:
    bool isRowFilled(int row);
    // Проверить, есть ли куски бетона в строке(строка не пуста)
    bool isRowNotEmpty(int row);
-   // Рандомно выбрать фигурку
-   void selectRandomFigure();
+   // Рандомно выбрать фигурку(текущую и следующую)
+   void selectRandomFigure(bool firstTime = false);
    // Координаты текущей фигуры
    int m_curRow = -1, m_curCol = 4;
    // Рабочая область(стакан)
@@ -377,6 +377,8 @@ private:
    std::vector<Tetramino*> m_figures;
    // Текущая фигура(индекс в наборе)
    int m_currFigureIndex = 0;
+   // Следующая фигура(индекс в наборе)
+   int m_nextFigureIndex = 0;
    // Счетчик уничтоженных строк
    int m_destroyedRowsCount = 0;
    // Дельта, на которую уменьшаем время тика
