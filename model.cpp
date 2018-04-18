@@ -73,6 +73,7 @@ void Glass::tick(TickType tt)
          deleteFigure(true);
          m_curRow = -1;
          m_curCol = 4;
+         m_figures[m_currFigureIndex]->resetPos(); // Сбросить позицию в начальную
          selectRandomFigure();
 
          // Уничтожить заполненые строки

@@ -101,14 +101,19 @@ void Drawer::DrawInfoPanel(InfoPanel& infopanel)
    SDL_SetRenderDrawColor(m_gRenderer, 105, 105, 105, 0);
    SDL_RenderDrawLine(m_gRenderer, 0, 0, 0, screenHeight);
 
+   // Разделить инфопанель на 4 части
+   SDL_RenderDrawLine(m_gRenderer, 0, screenHeight/4, infoPanelWidth, screenHeight/4);
+   SDL_RenderDrawLine(m_gRenderer, 0, screenHeight/2, infoPanelWidth, screenHeight/2);
+   SDL_RenderDrawLine(m_gRenderer, 0, screenHeight * 3/4, infoPanelWidth, screenHeight * 3/4);
+
    // Шрифт для панели
    SDL_Color white = {255, 255, 255};
-   TTF_Font* font = TTF_OpenFont("/usr/share/fonts/sourcecode/SourceCodeVariable-Roman.ttf", 72);
+   TTF_Font* font = TTF_OpenFont("/usr/share/fonts/sourcecode/SourceCodeVariable-Roman.ttf", 32);
 
    // Текстура "Destroyed"
    SDL_Surface* surfaceInfoPanel = TTF_RenderText_Solid(font, "Destroyed", white);
    SDL_Texture* infoPanelTexture = SDL_CreateTextureFromSurface(m_gRenderer, surfaceInfoPanel);
-   SDL_Rect dstRect = {5, 2, 110, 30};
+   SDL_Rect dstRect = {5, 50, 110, 25};
    SDL_RenderCopy(m_gRenderer, infoPanelTexture, nullptr, &dstRect);
    SDL_FreeSurface(surfaceInfoPanel);
    SDL_DestroyTexture(infoPanelTexture);
@@ -117,16 +122,24 @@ void Drawer::DrawInfoPanel(InfoPanel& infopanel)
    std::string lines = "lines:" + std::to_string(infopanel.GetDestroyedRows());
    surfaceInfoPanel = TTF_RenderText_Solid(font, lines.c_str(), white);
    infoPanelTexture = SDL_CreateTextureFromSurface(m_gRenderer, surfaceInfoPanel);
-   dstRect = {5, 35, 90, 30};
+   dstRect = {5, 80, 90, 25};
+   SDL_RenderCopy(m_gRenderer, infoPanelTexture, nullptr, &dstRect);
+   SDL_FreeSurface(surfaceInfoPanel);
+   SDL_DestroyTexture(infoPanelTexture);
+
+   // Текстура "Current"
+   surfaceInfoPanel = TTF_RenderText_Solid(font, "Current", white);
+   infoPanelTexture = SDL_CreateTextureFromSurface(m_gRenderer, surfaceInfoPanel);
+   dstRect = {5, 220, 90, 25};
    SDL_RenderCopy(m_gRenderer, infoPanelTexture, nullptr, &dstRect);
    SDL_FreeSurface(surfaceInfoPanel);
    SDL_DestroyTexture(infoPanelTexture);
 
    // Текстура "Level: x"
-   std::string level = "Level:" + std::to_string(infopanel.GetLevel());
+   std::string level = "level:" + std::to_string(infopanel.GetLevel());
    surfaceInfoPanel = TTF_RenderText_Solid(font, level.c_str(), white);
    infoPanelTexture = SDL_CreateTextureFromSurface(m_gRenderer, surfaceInfoPanel);
-   dstRect = {5, 100, 90, 30};
+   dstRect = {5, 250, 90, 25};
    SDL_RenderCopy(m_gRenderer, infoPanelTexture, nullptr, &dstRect);
    SDL_FreeSurface(surfaceInfoPanel);
    SDL_DestroyTexture(infoPanelTexture);
@@ -134,7 +147,7 @@ void Drawer::DrawInfoPanel(InfoPanel& infopanel)
    // Текстура "Next Figure"
    surfaceInfoPanel = TTF_RenderText_Solid(font, "Next Figure:", white);
    infoPanelTexture = SDL_CreateTextureFromSurface(m_gRenderer, surfaceInfoPanel);
-   dstRect = {5, 300, 110, 30};
+   dstRect = {5, 350, 110, 30};
    SDL_RenderCopy(m_gRenderer, infoPanelTexture, nullptr, &dstRect);
    SDL_FreeSurface(surfaceInfoPanel);
    SDL_DestroyTexture(infoPanelTexture);
@@ -148,7 +161,7 @@ void Drawer::DrawInfoPanel(InfoPanel& infopanel)
    for(int row = 0; row < figureSize; ++row)
       for(int col = 0; col < figureSize; ++col)
       {
-         SDL_Rect unoRect = { 20 + col * unoSize, 350 + row * unoSize, unoSize, unoSize};
+         SDL_Rect unoRect = { 20 + col * unoSize, 400 + row * unoSize, unoSize, unoSize};
          if(firstUno->getType() == UNO_TYPE::FIGURE) {
             SDL_RenderFillRect(m_gRenderer, &unoRect);
             SDL_SetRenderDrawColor(m_gRenderer, 0, 0, 0, 0); // Сделать черную окантовку

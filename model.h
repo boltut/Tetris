@@ -77,11 +77,12 @@ public:
    virtual ~Tetramino() {}
    // Вернуть себя в актуальной позе
    virtual Uno* getSelf() = 0;
-   // Поменять позу
+   // Поменять позу(повернуть на 90 градусов)
    void changePos(bool cw = true);
    // Получить размер
    int getSize() const { return m_size; }
-
+   // Сбросить позицию(установка T0)
+   void resetPos() {m_currPos = Tetramino_POS::T0;}
 protected:
    // Uno vacuum
    Uno o = Uno();
