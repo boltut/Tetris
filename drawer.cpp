@@ -153,7 +153,7 @@ void Drawer::DrawInfoPanel(InfoPanel& infopanel)
    SDL_DestroyTexture(infoPanelTexture);
    TTF_CloseFont(font);
 
-   // Отрисовать фигуру фигуры
+   // Отрисовать фигуру
    SDL_SetRenderDrawColor(m_gRenderer, 255, 255, 255, 0);
    int unoSize = 20;
    const Uno* firstUno = infopanel.GetNextFigure()->getSelf();
