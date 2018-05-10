@@ -11,7 +11,7 @@ public:
    int GetDestroyedRows() const { return m_destroyedRows; }
    void SetDestroyedRows(int rows) { m_destroyedRows += rows; }
    int GetLevel() const { return m_level; }
-   void SetLevel() { m_level += 1; }
+   void SetLevel() { ++m_level; }
    bool NeedRedraw()
    { 
       if(m_needRedraw)

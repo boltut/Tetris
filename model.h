@@ -349,8 +349,6 @@ public:
    bool NeedNextLevel();
    // Посмотреть дельту, на которую уменьшаем тик
    int GetTickDelta() const { return m_tickDelta; }
-   // Получить количество снесенных строк
-   int GetDestroyedRowsCount() const { return m_destroyedRowsCount; }
    // Конец игры?
    bool IsExit() const { return m_exit == true; }
    // Описатель инфопанели
@@ -379,8 +377,6 @@ private:
    int m_currFigureIndex = 0;
    // Следующая фигура(индекс в наборе)
    int m_nextFigureIndex = 0;
-   // Счетчик уничтоженных строк
-   int m_destroyedRowsCount = 0;
    // Дельта, на которую уменьшаем время тика
    const int m_tickDelta = 100;
    // Флаг конца игры

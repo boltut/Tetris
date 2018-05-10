@@ -224,14 +224,13 @@ void Glass::DestroyFilledRows()
    if(oneTimefilledRowsCount > 0) // Если что-то снесли
    {
       // Проверить, надо ли повысить уровень
-      if((m_destroyedRowsCount % oneLevelRowsCount + oneTimefilledRowsCount)
+      if((m_infopanel.GetDestroyedRows() % oneLevelRowsCount + oneTimefilledRowsCount)
          >= oneLevelRowsCount)
       {
          m_needNextLevel = true;
          m_infopanel.SetLevel();
       }
       // Запомнить кол-во уничтоженных строк
-      m_destroyedRowsCount += oneTimefilledRowsCount;
       m_infopanel.SetDestroyedRows(oneTimefilledRowsCount);
    }
 
