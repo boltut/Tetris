@@ -73,10 +73,14 @@ void Glass::tick(TickType tt)
          deleteFigure(true);
          m_curRow = -1;
          m_curCol = 4;
+         m_figures[m_currFigureIndex]->resetPos(); // Сбросить позицию в начальную
          selectRandomFigure();
 
          // Уничтожить заполненые строки
          DestroyFilledRows();
+
+         // Обновить инфопанель
+         m_infopanel.SetNeedRedraw();
       }
    }
    // Обработать смещение по горизонтали
@@ -162,9 +166,15 @@ bool Glass::isRowNotEmpty(int row)
    return false;
 }
 // ---------------------------------------
-void Glass::selectRandomFigure()
+void Glass::selectRandomFigure(bool firstTime)
 {
-   m_currFigureIndex = std::rand() % 7;
+   if(firstTime) // Первый запуск
+      m_currFigureIndex = std::rand() % 7;
+   else
+      m_currFigureIndex = m_nextFigureIndex;
+   
+   m_nextFigureIndex = static_cast<int>(std::rand() % 7);
+   m_infopanel.SetNextFigure(m_figures[m_nextFigureIndex]);
 }
 // ---------------------------------------
 void Glass::TickToLeft()
@@ -199,15 +209,30 @@ void Glass::Turn(TurningType tp)
 // ---------------------------------------
 void Glass::DestroyFilledRows()
 {
-   std::set<int> filledRows;
+   // Сколько нужно снести строк для одного уровня
+   const int oneLevelRowsCount = 5;
 
    // Сложить в кучу номера строк, подлежащих уничтожению
+   std::set<int> filledRows;
    for(int row = 0; row < 22; ++row)
       if(isRowFilled(row))
          filledRows.insert(row);
+
+   // Количество заполненных строк, образованных за падение одной фигуры
+   int oneTimefilledRowsCount = (int)filledRows.size();
    
-   // Запомнить кол-во уничтоженных строк
-   m_destroyedRowsCount += (int)filledRows.size();
+   if(oneTimefilledRowsCount > 0) // Если что-то снесли
+   {
+      // Проверить, надо ли повысить уровень
+      if((m_infopanel.GetDestroyedRows() % oneLevelRowsCount + oneTimefilledRowsCount)
+         >= oneLevelRowsCount)
+      {
+         m_needNextLevel = true;
+         m_infopanel.SetLevel();
+      }
+      // Запомнить кол-во уничтоженных строк
+      m_infopanel.SetDestroyedRows(oneTimefilledRowsCount);
+   }
 
    // Пройтись по заполненным строкам
    for(auto it : filledRows)
@@ -229,17 +254,14 @@ void Glass::DestroyFilledRows()
          }
       }
    }
-}      
-// ---------------------------------------
-bool Glass::NeedFasterTick()
-{
-   // Если снесли пять строк - ускорить тик(уменьшить время на дельту)
-   if(!(m_destroyedRowsCount < 5))
-   {
-      m_destroyedRowsCount -= 5;
-      return true;
-   }
-   return false;
 }
 // ---------------------------------------
-
+bool Glass::NeedNextLevel()
+{
+   if(m_needNextLevel)
+   {
+      m_needNextLevel = false;
+      return true;
+   }
+   return m_needNextLevel;
+}

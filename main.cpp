@@ -1,22 +1,16 @@
-﻿#include "drawer.h"
+#include "drawer.h"
 #include <chrono>
 #include <thread>
-#include <iostream>
 
 int prevInterval = 0;
 
 // Тикнуть
 Uint32 Tick(Uint32 interval, void* glass)
 {
-   // Показать время тика, для отладки, временно
    if(interval != prevInterval)
-   {
-      std::cout << "tick time = ";
-      std::cout << interval << " ms." << std::endl;
       prevInterval = interval;
-   }
-
    static_cast<Glass*>(glass)->tick(TickType::BOTTOM);
+
    return interval;
 }
 
@@ -40,6 +34,9 @@ int main(int argc, char* args[])
    // Тикающий колбэк
    SDL_TimerID mainTimerID = SDL_AddTimer(800, Tick, &glass);
 
+   // Нарисовать инфопанель первый раз
+   glass.m_infopanel.SetNeedRedraw();
+
    // Молотить пока не жмякнем на выход
    while(!quit)
    {
@@ -61,13 +58,12 @@ int main(int argc, char* args[])
          }
       }
 
-      // Рисовать стакан
-      drawer.ClearScreen();
-      drawer.DrawGlass(glass.getSelf());
+      drawer.DrawGlass(glass); // Рисовать стакан
+      drawer.DrawInfoPanel(glass.m_infopanel); // Рисовать инфопанель
       drawer.UpdateScreen();
 
       // Попытаться ускорить тик
-      if(glass.NeedFasterTick())
+      if(glass.NeedNextLevel())
       {
          // Запустить новый колбэк, с уменьшенным интервалом
          SDL_RemoveTimer(mainTimerID);

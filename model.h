@@ -7,6 +7,7 @@
 #define MODEL_H
 
 #include <vector>
+#include "infopanel.h"
 
 // Типы блоков(уно), из которых состоит всё
 enum class UNO_TYPE
@@ -76,11 +77,12 @@ public:
    virtual ~Tetramino() {}
    // Вернуть себя в актуальной позе
    virtual Uno* getSelf() = 0;
-   // Поменять позу
+   // Поменять позу(повернуть на 90 градусов)
    void changePos(bool cw = true);
    // Получить размер
    int getSize() const { return m_size; }
-
+   // Сбросить позицию(установка T0)
+   void resetPos() {m_currPos = Tetramino_POS::T0;}
 protected:
    // Uno vacuum
    Uno o = Uno();
@@ -344,12 +346,13 @@ public:
    // Уничтожить заполненные строки
    void DestroyFilledRows();
    // Ускорить тик?
-   bool NeedFasterTick();
+   bool NeedNextLevel();
    // Посмотреть дельту, на которую уменьшаем тик
    int GetTickDelta() const { return m_tickDelta; }
    // Конец игры?
    bool IsExit() const { return m_exit == true; }
- 
+   // Описатель инфопанели
+   InfoPanel m_infopanel;
 private:
    // Есть ли место для текущей фигуры в конкретной части стакана?
    bool hasPlace(int row, int col);
@@ -362,9 +365,8 @@ private:
    bool isRowFilled(int row);
    // Проверить, есть ли куски бетона в строке(строка не пуста)
    bool isRowNotEmpty(int row);
-   // Рандомно выбрать фигурку
-   void selectRandomFigure();
-
+   // Рандомно выбрать фигурку(текущую и следующую)
+   void selectRandomFigure(bool firstTime = false);
    // Координаты текущей фигуры
    int m_curRow = -1, m_curCol = 4;
    // Рабочая область(стакан)
@@ -373,12 +375,14 @@ private:
    std::vector<Tetramino*> m_figures;
    // Текущая фигура(индекс в наборе)
    int m_currFigureIndex = 0;
-   // Счетчик уничтоженных строк
-   int m_destroyedRowsCount = 0;
+   // Следующая фигура(индекс в наборе)
+   int m_nextFigureIndex = 0;
    // Дельта, на которую уменьшаем время тика
    const int m_tickDelta = 100;
    // Флаг конца игры
    bool m_exit = false;
+   // Нужно ли перейти на следующий уровениь
+   bool m_needNextLevel = false;
 };
 
 #endif // MODEL_H
