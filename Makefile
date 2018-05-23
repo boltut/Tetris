@@ -7,4 +7,4 @@ main.o drawer.o: drawer.h
 model.o: model.h infopanel.h
 	g++ -g3 model.cpp -std=c++17 -c
 clean:
-	rm tetris $(OBJECTS) *.gch
+	rm -f tetris $(OBJECTS) *.gch
