@@ -25,7 +25,7 @@ public:
    // Отрисовать стакан
    // param fstUno - ссылка на первое уно стакана
    void DrawGlass(Glass& glass);
-   // Отрисовать инфопанель  
+   // Отрисовать инфопанель
    void DrawInfoPanel(InfoPanel& infopanel);
    // Очистить экран
    void ClearScreen();
@@ -33,7 +33,7 @@ public:
    void UpdateScreen() {SDL_RenderPresent(m_gRenderer);}
 private:
 
-   // Инициализировать рисователь 
+   // Инициализировать рисователь
    bool init();
    // Загрузить медиа-контент
    void loadMedia() {}

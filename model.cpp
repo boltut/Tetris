@@ -64,7 +64,7 @@ void Glass::tick(TickType tt)
          writeFigure();
       }
       // Места нет
-      else 
+      else
       {
          // Обработать конец игры
          if(m_curRow == 0)
@@ -132,7 +132,7 @@ bool Glass::hasPlace(int row, int col)
                return false;
          }
          ++uno;
-      }  
+      }
    return true;
 }
 // ---------------------------------------
@@ -172,7 +172,7 @@ void Glass::selectRandomFigure(bool firstTime)
       m_currFigureIndex = std::rand() % 7;
    else
       m_currFigureIndex = m_nextFigureIndex;
-   
+
    m_nextFigureIndex = static_cast<int>(std::rand() % 7);
    m_infopanel.SetNextFigure(m_figures[m_nextFigureIndex]);
 }
@@ -220,7 +220,7 @@ void Glass::DestroyFilledRows()
 
    // Количество заполненных строк, образованных за падение одной фигуры
    int oneTimefilledRowsCount = (int)filledRows.size();
-   
+
    if(oneTimefilledRowsCount > 0) // Если что-то снесли
    {
       // Проверить, надо ли повысить уровень

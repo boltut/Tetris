@@ -48,7 +48,7 @@ void Drawer::DrawGlass(Glass& glass)
    // Натравить рендер на стакан
    SDL_RenderSetViewport(m_gRenderer, &m_glassViewportRect);
 
-    // Нарисовать уно		
+    // Нарисовать уно
    auto drawUno = [this](SDL_Rect& unoRect, UNO_COLOR unoColor)
    {
       switch(unoColor)
@@ -108,7 +108,7 @@ void Drawer::DrawInfoPanel(InfoPanel& infopanel)
 
    // Шрифт для панели
    SDL_Color white = {255, 255, 255};
-   TTF_Font* font = TTF_OpenFont("/usr/share/fonts/sourcecode/SourceCodeVariable-Roman.ttf", 32);
+   TTF_Font* font = TTF_OpenFont("/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf", 32);
 
    // Текстура "Destroyed"
    SDL_Surface* surfaceInfoPanel = TTF_RenderText_Solid(font, "Destroyed", white);

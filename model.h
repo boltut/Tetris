@@ -32,7 +32,7 @@ enum class UNO_COLOR
 
 // Положения, в которых могут находится фигурки
 enum class Tetramino_POS
-{ 
+{
    T0,
    T90,
    T180,

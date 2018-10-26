@@ -13,7 +13,7 @@ public:
    int GetLevel() const { return m_level; }
    void SetLevel() { ++m_level; }
    bool NeedRedraw()
-   { 
+   {
       if(m_needRedraw)
       {
          m_needRedraw = false;
